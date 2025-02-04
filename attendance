@@ -1,0 +1,105 @@
+from bootcamp2 import Spaceship
+
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+    def __str__(self):
+        return str(self.value)
+
+class LinkedList:
+    def __init__(self, value):
+        new_node = Node(value)
+        self.head = new_node
+        self.tail = new_node
+        self.length = 1
+
+    def __str__(self):
+        #TODO loop through the list and print it out. Transfer the responsibility of exact syntax to the deeper level classes
+        return str(self.head)
+    def print_list(self):
+        temp = self.head
+        while temp is not None:
+            print(temp.value)
+            temp = temp.next
+        print("End of List")
+
+    def append(self, value):
+        new_node = Node(value)
+        if (self.length == 0):
+            self.head = new_node
+            self.tail = new_node
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
+        self.length += 1
+        return True
+
+    def prepend(self, value):
+        new_node = Node(value)
+        if(self.length == 0):
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head = new_node
+        self.length += 1
+
+    #TODO Check this method for correctness
+    def delfirst(self):
+        if(self.length == 0):
+            return False
+        temp = self.head
+        self.head = self.head.next
+        temp.next = None
+        self.length -= 1
+        if self.length == 0:
+            self.tail = None
+        return temp
+    #In A singly linked list we cannot traverse backwards, hence we need two variables temp and pre to set the new tail to node before the original tail
+    def dellast(self):
+        if(self.length == 0):
+            return None
+        temp = self.head
+        pre = self.head
+        while temp.next:
+            pre = temp
+            temp = temp.next
+        self.tail = pre
+        self.tail.next = None
+        self.length -= 1
+        if self.length == 0:
+            self.head = None
+            self.tail = None
+        return temp
+
+
+
+
+s1 = Spaceship("Voyager", 300, 10)
+s2 = Spaceship("Enterprise", 300, 10)
+s3 = Spaceship("Starship", 1000, 10)
+s4 = Spaceship("Serenity", 400, 10)
+s5 = Spaceship("Millenium", 500, 10)
+
+
+myLinkedList = LinkedList(s1)
+myLinkedList.append(s2)
+myLinkedList.append(s3)
+myLinkedList.prepend(s4)
+myLinkedList.prepend(s5)
+myLinkedList.print_list()
+
+#TODO Write prepend and append methods
+
+
+
+"""
+node1 = Node(1)
+node2 = Node(2)
+node1.next = node2
+print(id(node1.next))
+print(id(node2))
+"""
